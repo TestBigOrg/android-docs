@@ -97,6 +97,7 @@ module.exports = React.createClass({
 
         {/* Site top toolbar */}
         <div className={'col--12 z1 hmin48 bg-denim shadow-darken50 fixed'}>
+
         {/* Site Navigation */}
         <div className={`align-t hmin48 flex-parent-inline flex-parent--center-cross flex-parent--left-main ${queryMatches.desktop ? 'w240' : ''}`}><a href={'https://mapbox.com/'}><div className={queryMatches.desktop ? 'ml12 mb-logo--s mb-logo--white' : ''}/></a></div>
         <Link className={`py12 transition btn color-white bg-transparent bg-darken10-on-active bg-darken10-on-hover txt-s  ${mapSdkActive ? 'is-active' : ''}`} to={prefixLink('/map-sdk/5.0.1/getting-started/')}>Map SDK</Link>

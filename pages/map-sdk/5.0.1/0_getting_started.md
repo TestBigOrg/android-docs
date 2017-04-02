@@ -15,7 +15,7 @@ The Mapbox Maps SDK is an open source toolset for displaying maps inside of your
 ### API reference
 All public methods in the Maps SDK project are well documented and can be either viewed inside of the source code or directly on the Javadoc (linked below). If you are using an older version of the SDK, you can still access the Javadoc by replacing the URL's version number with the one that you are using inside of your application.
 
-- [5.0.1 Maps SDK Javadoc](https://www.mapbox.com/android-docs/api/map-sdk/5.0.1/index.html)
+- [{mapSdkVersion} Maps SDK Javadoc](https://www.mapbox.com/android-docs/api/map-sdk/5.0.1/index.html)
 
 ### Access tokens
 An access token is necessary to use the Maps SDK. Manage your access tokens in [your account settings](https://www.mapbox.com/account/apps/) to retrieve current tokens and generate new ones. You should create a new token for each of your apps, which will help you track usage and decrease disruption in the event that a token needs to be revoked.
@@ -52,7 +52,7 @@ repositories {
 }
 
 dependencies {
-  compile ('com.mapbox.mapboxsdk:mapbox-android-sdk:5.0.1@aar'){
+  compile ('com.mapbox.mapboxsdk:mapbox-android-sdk:{mapSdkVersion}@aar'){
       transitive=true
   }
 }
