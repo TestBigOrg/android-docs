@@ -58,7 +58,7 @@ navigation.getRoute(new Callback<DirectionsResponse>() {
 
 <!-- preview -->
 
-The RouteProgress class contains all of the user's progress information along the route, including leg and steps. This object's provided inside `AlertLevelChangeListener` and `ProgressChangeListener`, allowing you to get distance measurements, the percentage of route complete, current step index, and much more.
+The RouteProgress class contains all the user's progress information along the route, including leg and steps. This object's provided inside `AlertLevelChangeListener` and `ProgressChangeListener`, allowing you to get distance measurements, the percentage of route complete, current step index, and much more.
 
 `RouteProgress` contains two subclasses for leg and step information, the tables below provide a full list of the APIs exposed.
 
@@ -154,7 +154,7 @@ navigation.addAlertLevelChangeListener(new AlertLevelChangeListener() {
 
 ### OnProgressChange
 
-Like listening into user location changes, this listener's invoked every time the user's location changes but provides an updated RouteProgress object. The use of this listener is strongly encouraged, because you can typically update most of your application's user interface. An example of this would be if you are displaying the user's current progress until the user needs to do the next maneuver. Every time this listener's invoked, you are able to update your view with the new information from RouteProgress.
+Like listening into user location changes, this listener's invoked every time the user's location changes but provides an updated RouteProgress object. This listener is strongly encouraged, because you can typically update most of your application's user interface. An example of this would be if you are displaying the user's current progress until the user needs to do the next maneuver. Every time this listener's invoked, you are able to update your view with the new information from RouteProgress.
 
 Besides receiving information about the route progress, the callback also provides you with the user's current location which can provide their current speed, bearing, etc. If you have snapping to the route enabled, the location object will be updated to provide the snapped coordinates.
 
@@ -169,7 +169,7 @@ navigation.addProgressChangeListener(new ProgressChangeListener() {
 
 ### UserOffRoute
 
-During the navigation session you can listen into the listener which gets invoked once when the user location moves outside the threshold. You can adjust this threshold inside the `Constants.java` file, the default's 50 meters. Inside the callback, you can notify the user and reroute them if needed using `updateRoute()`.
+During the navigation session you can listen into the listener which gets invoked once when the user location moves outside the threshold. You can adjust this threshold inside the `Constants.java` file, the default's 50 meters. Inside the callback, you can alert the user and reroute them if needed using `updateRoute()`.
 
 ```java
 navigation.addOffRouteListener(new OffRouteListener() {

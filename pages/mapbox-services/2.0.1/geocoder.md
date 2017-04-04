@@ -22,7 +22,7 @@ MapboxGeocoding mapboxGeocoding = new MapboxGeocoding.Builder()
 ```
 
 ### Geocoding response
-Once you have built your MapboxGeocoding object with all of the parameters that you'd like to use in the request, you'll need to asynchronously send the request using enqueueCall. Once the request receives a response, it will tell the Callback where you can handle the response appropriately.
+Once you have built your MapboxGeocoding object with all the parameters that you'd like to use in the request, you'll need to asynchronously send the request using enqueueCall. Once the request receives a response, it will tell the Callback where you can handle the response appropriately.
 
 > **Note:** In case your user leaves the activity or application before the callback's notified, you should use `mapboxGeocoding.cancelCall()` within your onDestroy() lifecycle method.
 

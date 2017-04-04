@@ -5,7 +5,7 @@ path: "/mapbox-services/2.0.1/static-image/"
 The Mapbox Static API returns static maps and raster tiles from styles in the Mapbox Style Specification. Static maps are standalone images that can be displayed in an `ImageView` without the aid of a mapping library or API. They look like an embedded map without interactivity or controls. Specific to the Java API, it builds the request URL for you.
 
 ## Building the URL
-To begin with you'll need to create a new instance of the `MapboxStaticImage` object and use it's builder to customize your image request. The options offered in the builder include anything from setting the latitude and longitude to adding markers and other annotations. the image width and height are important parameters for displaying the correct aspect ratio inside your applications image view, and in many cases, you will want to check if your users device supports retina or not by using `getResources().getDisplayMetrics().density`.
+To begin with you'll need to create a new instance of the `MapboxStaticImage` object and use it's builder to customize your image request. The options offered in the builder include anything from setting the latitude and longitude to adding markers and other annotations. the image width and height are important parameters for displaying the correct aspect ratio inside your applications image view, and often, you will want to check if your users device supports retina or not by using `getResources().getDisplayMetrics().density`.
 
 ```java
 MapboxStaticImage staticImage = new MapboxStaticImage.Builder()
