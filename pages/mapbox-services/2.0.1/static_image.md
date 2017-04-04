@@ -28,10 +28,10 @@ String imageUrl = staticImage.getUrl().toString();
 Picasso.with(this).load(imageUrl).into(imageView);
 ```
 
-## Overlaying annotations
+<!-- ## Overlaying annotations
 An overlay is data that can be applied on top of the map image at request time. these can be a mix of valid GeoJSON, a marker, a custom marker or path. Overlays cannot consist of more than 100 features. The maximum overlay length is 2083 characters.
 
-While building your request, you can choose to auto position the camera so that all your annotations fit within the viewport. To do this, remove the `setLat()` and `setLon()` and instead use `auto()`. `beforeLayer()` can be used to specify where in the map layer stack you'd like your annotations to appear. A marker overlay can be applied to the static map by providing a position, a name `pin-s`, `pin-m`, or `pin-l`, label and a color. 
+While building your request, you can choose to auto position the camera so that all your annotations fit within the viewport. To do this, remove the `setLat()` and `setLon()` and instead use `auto()`. `beforeLayer()` can be used to specify where in the map layer stack you'd like your annotations to appear. A marker overlay can be applied to the static map by providing a position, a name `pin-s`, `pin-m`, or `pin-l`, label and a color.
 
 ```java
 Marker marker = new Marker()
@@ -44,4 +44,4 @@ Marker marker = new Marker()
 MapboxStaticImage staticImage = new MapboxStaticImage.Builder()
   .setMarker(marker)
   ...
-```
+``` -->

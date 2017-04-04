@@ -75,50 +75,35 @@ The RouteProgress class contains all of the user's progress information along th
 | getFractionTraveled         | A `float` value between 0 and 1 giving the total percentage the user has completed in the navigation session.
 | getCurrentLegProgress | returns the `LegProgress` object with information specific to the current route leg. You can also access step information through this object. |
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-| LegProgress APIs          | Description           |
+| LegProgress APIs            | Description           |
 | --------------------------- |:---------------------:|
- | getFractionTraveledOnRoute  | A `float` value between 0 and 1 giving the total percentage the user has completed in the navigation session. |
- | getDistanceRemainingOnRoute | The distance between the user's current location and the next maneuver.      |
-| getUpComingStep             | The next step the user will be on from their current location.      |
+| getCurrentStepProgress      | returns the `stepProgress` object with information specific to the current route step. |
 | getStepIndex                | The route's current step index the user's on.      |
-| getCurrentStep              | The current step that the user's on.       |
-| getDistanceTraveledOnStep   | Measures from the current steps maneuver to the user's snapped position.      |
-| getDurationRemainingOnStep  | The estimated time remaining until the user reaches end of current step.      |
-| getDistanceRemainingOnStep  | Measures from the user's current snapped position to the last coordinate in the step.       |
+| getDistanceTraveled         | Total distance the user has traveled along the current leg. |
+| getDurationRemaining        | The estimated duration remaining till the user reaches the last maneuver in current route leg. |
+| getFractionTraveled         | A `float` value between 0 and 1 giving the total percentage the user has traveled along the current route leg. |
+| getDistanceRemaining        | The total distance the user has traveled along the current leg.   |
+| getPreviousStep             | Get the previous step the user traversed along, if the user is still on the first step, this will return null. |
+| getCurrentStepProgress      |  Returns the current step the user is traversing along. |
+| getUpComingStep             | Get the next/upcoming step immediately after the current step. If the user is on the last step on the last leg, this will return null since a next step doesn't exist. |
+
+| StepProgress APIs           | Description           |
+| --------------------------- |:---------------------:|
+| getDistanceTraveled         | Total distance the user has traveled along the current step. |
+| getDurationRemaining        | The estimated duration remaining till the user reaches the next step maneuver. |
+| getFractionTraveled         | A `float` value between 0 and 1 giving the total percentage the user has traveled along the current step. |
+| getDistanceRemaining        | The total distance the user has traveled along the current step.   |
 
 ## Listeners
-
-<!-- preview -->
 
 Chances are, if you are using the navigation SDK, you'll want to listen in to events such as when the user makes progress along the route or when the user goes off route. By listening into these events, you are able to provide the user with instructions at the proper times. At the bare minimum, it is strongly encouraged to use the `OnProgressChange` listener, which is called every time the user's locations updated.
 
 ### NavigationRunning
 
-<!-- preview -->
-
 The event callback is handy for being notified when the navigation session has started, the user has canceled the session, or the user has arrived at their final destination. From this information, you are able to decide when to show navigation notifications, know when it's safe to stop requesting user location updates, and much more.
 
 ```java
-navigation.setNavigationEventListener(new NavigationEventListener() {
+navigation.addNavigationEventListener(new NavigationEventListener() {
   @Override
   public void onRunning(boolean running) {
 
@@ -127,8 +112,6 @@ navigation.setNavigationEventListener(new NavigationEventListener() {
 ```
 
 ### AlertLevelChange
-
-<!-- preview -->
 
 Listening in to the alertLevelChange is useful for correctly getting the timing of user notifications while the user is traversing along the route. The listener's invoked only when the user's reached a specific point along the current step that they are on. The alert thresholds can be adjusted within the constants file while developing and are based on time (in seconds) until the user reaches the next maneuver.
 
@@ -141,10 +124,8 @@ Listening in to the alertLevelChange is useful for correctly getting the timing 
 | `ARRIVE_ALERT_LEVEL` | Occurs when the user has performed the last maneuver along the route and reached their final destination. |
 | `NONE_ALERT_LEVEL` | This might be invoked in a rare case when the alert level can not be determined. |
 
-> While the AlertLevelChange listener can help you correctly tell your users to do an action, it relies heavily on the user's current position. This means that the alert is rarely changed exactly at the correct time and might be delayed until a new location update occurs and the user is within the alerts threshold.
-
 ```java
-navigation.setAlertLevelChangeListener(new AlertLevelChangeListener() {
+navigation.addAlertLevelChangeListener(new AlertLevelChangeListener() {
   @Override
   public void onAlertLevelChange(int alertLevel, RouteProgress routeProgress) {
     switch (alertLevel) {
@@ -173,14 +154,12 @@ navigation.setAlertLevelChangeListener(new AlertLevelChangeListener() {
 
 ### OnProgressChange
 
-<!-- preview -->
-
 Like listening into user location changes, this listener's invoked every time the user's location changes but provides an updated RouteProgress object. The use of this listener is strongly encouraged, because you can typically update most of your application's user interface. An example of this would be if you are displaying the user's current progress until the user needs to do the next maneuver. Every time this listener's invoked, you are able to update your view with the new information from RouteProgress.
 
 Besides receiving information about the route progress, the callback also provides you with the user's current location which can provide their current speed, bearing, etc. If you have snapping to the route enabled, the location object will be updated to provide the snapped coordinates.
 
 ```java
-navigation.setProgressChangeListener(new ProgressChangeListener() {
+navigation.addProgressChangeListener(new ProgressChangeListener() {
       @Override
       public void onProgressChange(Location location, RouteProgress routeProgress) {
 
@@ -188,14 +167,30 @@ navigation.setProgressChangeListener(new ProgressChangeListener() {
     });
 ```
 
-### OffRoute
+### UserOffRoute
 
-<!-- preview -->
+During the navigation session you can listen into the listener which gets invoked once when the user location moves outside the threshold. You can adjust this threshold inside the `Constants.java` file, the default's 50 meters. Inside the callback, you can notify the user and reroute them if needed using `updateRoute()`.
 
-Not implemented in the SDK yet.
+```java
+navigation.addOffRouteListener(new OffRouteListener() {
+      @Override
+      public void userOffRoute(Location location) {
+        Position newOrigin = Position.fromCoordinates(location.getLongitude(), location.getLatitude());
+    navigation.updateRoute(newOrigin, destination, new Callback<DirectionsResponse>() {
+      @Override
+      public void onResponse(Call<DirectionsResponse> call, Response<DirectionsResponse> response) {
+        // Remove the old route and redraw new one here
+      }
+
+      @Override
+      public void onFailure(Call<DirectionsResponse> call, Throwable throwable) {
+        // Log any failure that might occur here
+      }
+    });
+  }
+});
+```
 
 ## RouteUtils
-
-<!-- preview -->
 
 The RouteUtils class can be found in the mapbox-java-services module and provides many of the methods used for calculations done in the RouteProgress object. An example of this is getting the total route distance left until the user reaches their destination. If you would like to do these calculations on your own or would like the change the behavior of navigation, you can directly call these methods and handle the calculations yourself.
